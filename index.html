@@ -1,0 +1,200 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  #app { max-width: 860px; margin: 0 auto; padding: 2rem 1rem; font-family: 'Georgia', serif; background: #fff; text-align: center; }
+  p.cat { font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #bbb; margin-bottom: 0.2rem; }
+  h2 { font-size: 1.6rem; font-weight: 400; color: #1a1a1a; margin-bottom: 0.25rem; }
+  .subtitle { font-size: 0.78rem; color: #bbb; letter-spacing: 0.03em; margin-bottom: 2rem; }
+  .input-row { display: flex; gap: 0.5rem; justify-content: center; align-items: center; margin-bottom: 0.5rem; flex-wrap: wrap; }
+  .input-wrap { position: relative; width: min(300px, 100%); }
+  input[type="text"] { width: 100%; border: 1.5px solid #ddd; border-radius: 50px; padding: 0.7rem 1.2rem; font-size: 0.9rem; font-family: 'Georgia', serif; outline: none; background: #fff; color: #1a1a1a; text-align: center; transition: border-color 0.15s; -webkit-appearance: none; }
+  input[type="text"]:focus { border-color: #888; }
+  input[type="text"]::placeholder { color: #ccc; }
+  .btn { border: 1.5px solid #1a1a1a; background: #1a1a1a; color: #fff; padding: 0.7rem 1.3rem; font-size: 0.85rem; font-family: 'Georgia', serif; cursor: pointer; border-radius: 50px; letter-spacing: 0.04em; -webkit-appearance: none; touch-action: manipulation; }
+  .btn:hover { background: #333; }
+  .btn:active { background: #444; }
+  .btn-new { background: #fff; color: #888; border-color: #ddd; font-size: 0.78rem; padding: 0.7rem 1rem; }
+  .btn-new:hover, .btn-new:active { background: #f5f5f5; }
+  .suggestions { border: 1.5px solid #eee; border-radius: 16px; background: #fff; position: absolute; z-index: 10; width: 100%; top: calc(100% + 6px); box-shadow: 0 4px 20px rgba(0,0,0,0.09); overflow: hidden; }
+  .suggestion-item { padding: 0.55rem 1.2rem; font-size: 0.86rem; cursor: pointer; color: #444; font-family: 'Georgia', serif; text-align: left; }
+  .suggestion-item:hover, .suggestion-item:active { background: #f5f5f5; }
+  .error-msg { font-size: 0.78rem; color: #d05050; min-height: 1.1rem; margin-bottom: 0.8rem; }
+  .legend { display: flex; gap: 1.2rem; margin: 0 auto 1.8rem; align-items: center; justify-content: center; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.74rem; color: #888; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  .lg-green { background: #27ae60; }
+  .lg-orange { background: #e67e22; }
+  .lg-red { background: #e74c3c; }
+  .win-banner { background: #eafaf1; border: 1.5px solid #82e0aa; border-radius: 16px; padding: 0.9rem 1.2rem; margin: 0 auto 1.4rem; font-size: 0.88rem; color: #1e8449; display: none; max-width: 480px; }
+  .attempts { font-size: 0.74rem; color: #ccc; margin-bottom: 0.9rem; letter-spacing: 0.04em; }
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; min-width: 520px; border-collapse: separate; border-spacing: 0 5px; font-size: 0.78rem; }
+  thead th { padding: 0.35rem 0.6rem; text-align: center; font-weight: 400; font-family: 'Georgia', serif; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; color: #bbb; }
+  td { padding: 0.6rem 0.65rem; text-align: center; font-family: 'Georgia', serif; vertical-align: middle; line-height: 1.3; border: none; }
+  td:first-child { border-radius: 12px 0 0 12px; }
+  td:last-child { border-radius: 0 12px 12px 0; }
+  td.green  { background: #d5f5e3; color: #1a7a42; }
+  td.orange { background: #fdebd0; color: #9a5a0a; }
+  td.red    { background: #fadbd8; color: #a93226; }
+  td.col-num { background: #f5f5f5; color: #ccc; font-size: 0.7rem; min-width: 28px; padding: 0.6rem 0.4rem; border-radius: 12px 0 0 12px; }
+  .nerve-num { font-size: 0.65rem; opacity: 0.65; display: block; margin-top: 1px; }
+  @media (max-width: 480px) {
+    h2 { font-size: 1.35rem; }
+    .btn { padding: 0.65rem 1rem; font-size: 0.82rem; }
+    td { padding: 0.5rem 0.5rem; font-size: 0.74rem; }
+    table { min-width: 440px; font-size: 0.74rem; }
+  }
+</style>
+
+<div id="app">
+  <p class="cat">Neuroanatomie</p>
+  <h2>Cranial Nerves</h2>
+  <p class="subtitle">Devinez le nerf cible — tapez un nom pour commencer</p>
+
+  <div id="win-banner" class="win-banner"></div>
+
+  <div class="input-row">
+    <div class="input-wrap">
+      <input type="text" id="guess-input" placeholder="ex : trigeminal" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+      <div class="suggestions" id="suggestions" style="display:none;"></div>
+    </div>
+    <button class="btn" id="submit-btn">Valider</button>
+    <button class="btn btn-new" id="new-btn">Nouveau</button>
+  </div>
+  <div class="error-msg" id="error-msg"></div>
+
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot lg-green"></span> Exact</span>
+    <span class="legend-item"><span class="legend-dot lg-orange"></span> Partiel</span>
+    <span class="legend-item"><span class="legend-dot lg-red"></span> Incorrect</span>
+  </div>
+
+  <div id="attempts" class="attempts"></div>
+  <div class="table-wrap"><div id="table-wrap"></div></div>
+</div>
+
+<script>
+const DATA = [
+  {"number":"I","name":"OLFACTORY","type":["Sensory"],"fibers":["SVA"],"brain_part":"TELENCEPHALON","foramen_canal":["Cribriform plate"]},
+  {"number":"II","name":"OPTIC","type":["Sensory"],"fibers":["SSA"],"brain_part":"DIENCEPHALON","foramen_canal":["Optic canal"]},
+  {"number":"III","name":"OCULOMOTOR","type":["Motor","Parasympathetic"],"fibers":["GSE","GVE"],"brain_part":"MIDBRAIN","foramen_canal":["Superior orbital fissure"]},
+  {"number":"IV","name":"TROCHLEAR","type":["Motor"],"fibers":["GSE"],"brain_part":"MIDBRAIN","foramen_canal":["Superior orbital fissure"]},
+  {"number":"V","name":"TRIGEMINAL","type":["Sensory","Motor"],"fibers":["GSA","SVE"],"brain_part":"PONS","foramen_canal":["V1: Superior orbital fissure","V2: Foramen rotundum","V3: Foramen ovale"]},
+  {"number":"VI","name":"ABDUCENS","type":["Motor"],"fibers":["GSE"],"brain_part":"PONS","foramen_canal":["Superior orbital fissure"]},
+  {"number":"VII","name":"FACIAL","type":["Sensory","Motor","Parasympathetic"],"fibers":["GSA","SVA","GVA","SVE","GVE"],"brain_part":"PONTOMEDULLARY JUNCTION","foramen_canal":["Internal acoustic meatus"]},
+  {"number":"VIII","name":"VESTIBULOCOCHLEAR","type":["Sensory"],"fibers":["SSA"],"brain_part":"PONTOMEDULLARY JUNCTION","foramen_canal":["Internal acoustic meatus"]},
+  {"number":"IX","name":"GLOSSOPHARYNGEAL","type":["Sensory","Motor","Parasympathetic"],"fibers":["GSA","GVA","SVA","SVE","GVE"],"brain_part":"MEDULLA OBLONGATA","foramen_canal":["Jugular foramen"]},
+  {"number":"X","name":"VAGUS","type":["Sensory","Motor","Parasympathetic"],"fibers":["GSA","GVA","SVA","SVE","GVE"],"brain_part":"MEDULLA OBLONGATA","foramen_canal":["Jugular foramen"]},
+  {"number":"XI","name":"ACCESSORY","type":["Motor"],"fibers":["GSE","SVE","ASG"],"brain_part":"MEDULLA OBLONGATA","foramen_canal":["Jugular foramen"]},
+  {"number":"XII","name":"HYPOGLOSSAL","type":["Motor"],"fibers":["GSE","AVG"],"brain_part":"MEDULLA OBLONGATA","foramen_canal":["Hypoglossal canal"]}
+];
+
+let target=null,guesses=[],won=false;
+function pickRandom(){return DATA[Math.floor(Math.random()*DATA.length)];}
+function normalize(s){return s.trim().toUpperCase();}
+function findNerve(input){
+  const n=normalize(input);
+  return DATA.find(d=>normalize(d.name)===n)||DATA.find(d=>normalize(d.name).startsWith(n))||DATA.find(d=>n===d.number);
+}
+function compareSets(g,t){
+  const gs=new Set(g.map(x=>x.toUpperCase())),ts=new Set(t.map(x=>x.toUpperCase()));
+  const inter=[...gs].filter(x=>ts.has(x));
+  if(inter.length===ts.size&&gs.size===ts.size)return'green';
+  if(inter.length>0)return'orange';
+  return'red';
+}
+function compareForamen(g,t){
+  const gn=g.map(x=>x.toUpperCase()),tn=t.map(x=>x.toUpperCase());
+  if(JSON.stringify([...gn].sort())===JSON.stringify([...tn].sort()))return'green';
+  const gw=new Set(gn.join(' ').split(/\s+/)),tw=new Set(tn.join(' ').split(/\s+/));
+  const shared=[...gw].filter(w=>w.length>3&&tw.has(w));
+  return shared.length>0?'orange':'red';
+}
+function compareGuess(g,t){
+  return{
+    nameColor:normalize(g.name)===normalize(t.name)?'green':'red',
+    typeColor:compareSets(g.type,t.type),
+    fibersColor:compareSets(g.fibers,t.fibers),
+    brainColor:normalize(g.brain_part)===normalize(t.brain_part)?'green':'red',
+    foramenColor:compareForamen(g.foramen_canal,t.foramen_canal)
+  };
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1).toLowerCase();}
+function renderTable(){
+  if(!guesses.length){document.getElementById('table-wrap').innerHTML='';return;}
+  let html='<table><thead><tr><th></th><th>Nom</th><th>Type</th><th>Fibres</th><th>Région</th><th>Foramen</th></tr></thead><tbody>';
+  guesses.forEach((g,i)=>{
+    const r=compareGuess(g,target);
+    html+=`<tr>
+      <td class="col-num">${guesses.length-i}</td>
+      <td class="${r.nameColor}">${cap(g.name)}<span class="nerve-num">CN ${g.number}</span></td>
+      <td class="${r.typeColor}">${g.type.join(', ')}</td>
+      <td class="${r.fibersColor}">${g.fibers.join(', ')}</td>
+      <td class="${r.brainColor}">${cap(g.brain_part)}</td>
+      <td class="${r.foramenColor}">${g.foramen_canal.join('<br>')}</td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById('table-wrap').innerHTML=html;
+  document.getElementById('attempts').textContent=`${guesses.length} tentative${guesses.length>1?'s':''}`;
+}
+function showWin(){
+  const b=document.getElementById('win-banner');
+  b.style.display='block';
+  b.innerHTML=`&#10003;&ensp;Bravo&nbsp;! CN ${target.number} &mdash; <strong>${cap(target.name)}</strong> trouvé en ${guesses.length} tentative${guesses.length>1?'s':''}.`;
+  document.getElementById('guess-input').disabled=true;
+  document.getElementById('submit-btn').disabled=true;
+}
+function newGame(){
+  target=pickRandom();guesses=[];won=false;
+  document.getElementById('win-banner').style.display='none';
+  document.getElementById('guess-input').value='';
+  document.getElementById('guess-input').disabled=false;
+  document.getElementById('submit-btn').disabled=false;
+  document.getElementById('error-msg').textContent='';
+  document.getElementById('attempts').textContent='';
+  document.getElementById('table-wrap').innerHTML='';
+  document.getElementById('suggestions').style.display='none';
+  document.getElementById('guess-input').focus();
+}
+function submitGuess(){
+  if(won)return;
+  const val=document.getElementById('guess-input').value.trim();
+  if(!val)return;
+  const nerve=findNerve(val);
+  if(!nerve){document.getElementById('error-msg').textContent='Nerf non reconnu. Essayez : olfactory, optic, trigeminal…';return;}
+  if(guesses.find(g=>g.name===nerve.name)){document.getElementById('error-msg').textContent='Ce nerf a déjà été proposé.';return;}
+  document.getElementById('error-msg').textContent='';
+  guesses.unshift(nerve);
+  renderTable();
+  document.getElementById('guess-input').value='';
+  document.getElementById('suggestions').style.display='none';
+  if(nerve.name===target.name){won=true;showWin();}
+}
+const input=document.getElementById('guess-input');
+input.addEventListener('input',()=>{
+  const v=input.value.trim().toUpperCase();
+  if(!v){document.getElementById('suggestions').style.display='none';return;}
+  const matches=DATA.filter(d=>d.name.startsWith(v)||d.name.includes(v));
+  const sug=document.getElementById('suggestions');
+  if(!matches.length){sug.style.display='none';return;}
+  sug.innerHTML=matches.map(m=>`<div class="suggestion-item" data-name="${m.name}">${cap(m.name)}</div>`).join('');
+  sug.style.display='block';
+  sug.querySelectorAll('.suggestion-item').forEach(el=>{
+    el.addEventListener('mousedown',e=>{
+      input.value=cap(e.target.dataset.name);
+      sug.style.display='none';input.focus();
+    });
+  });
+});
+input.addEventListener('keydown',e=>{
+  if(e.key==='Enter'){document.getElementById('suggestions').style.display='none';submitGuess();}
+  if(e.key==='Escape')document.getElementById('suggestions').style.display='none';
+});
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.input-wrap'))document.getElementById('suggestions').style.display='none';
+});
+document.getElementById('submit-btn').addEventListener('click',submitGuess);
+document.getElementById('new-btn').addEventListener('click',newGame);
+newGame();
+</script>
