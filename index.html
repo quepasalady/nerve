@@ -1,61 +1,68 @@
-
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<title>Cranial Nerves</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{--ff:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;}
-#app{width:100%;padding:28px 16px 40px;font-family:var(--ff);text-align:center;}
+body{background:#fff;font-family:var(--ff);-webkit-text-size-adjust:100%;}
+#app{width:100%;max-width:480px;margin:0 auto;padding:36px 20px 60px;text-align:center;}
 .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
-.title{font-size:28px;font-weight:600;color:#111;margin-bottom:4px;letter-spacing:-.3px;}
-.sub{font-size:13px;color:#bbb;margin-bottom:28px;}
-.win{background:#d5f5e3;border:1.5px solid #27ae60;border-radius:16px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1a7a42;display:none;font-family:var(--ff);}
-.input-wrap{position:relative;margin-bottom:10px;}
-input[type=text]{width:100%;border:1.5px solid #e0e0e0;border-radius:50px;padding:14px 20px;font-size:16px;font-family:var(--ff);outline:none;background:#fff;color:#111;text-align:center;-webkit-appearance:none;appearance:none;transform:translateZ(0);}
+.title{font-size:30px;font-weight:700;color:#111;margin-bottom:4px;letter-spacing:-.5px;}
+.sub{font-size:14px;color:#bbb;margin-bottom:32px;}
+.win{background:#d5f5e3;border:1.5px solid #27ae60;border-radius:16px;padding:13px 18px;margin-bottom:18px;font-size:14px;color:#1a7a42;display:none;}
+.input-wrap{position:relative;margin-bottom:12px;}
+input[type=text]{width:100%;border:1.5px solid #e0e0e0;border-radius:50px;padding:15px 22px;font-size:16px;font-family:var(--ff);outline:none;background:#fff;color:#111;text-align:center;-webkit-appearance:none;appearance:none;}
 input[type=text]:focus{border-color:#999;}
-input::placeholder{color:#ccc;font-size:15px;}
+input::placeholder{color:#ccc;}
 .row-btns{display:flex;gap:10px;margin-bottom:8px;}
-.btn-submit{flex:1;border:none;background:#111;color:#fff;padding:14px;font-size:15px;font-family:var(--ff);font-weight:500;cursor:pointer;border-radius:50px;letter-spacing:.01em;}
+.btn-submit{flex:1;border:none;background:#111;color:#fff;padding:15px;font-size:16px;font-family:var(--ff);font-weight:600;cursor:pointer;border-radius:50px;}
 .btn-submit:active{background:#333;}
-.btn-new{border:1.5px solid #e0e0e0;background:#fff;color:#999;padding:14px 20px;font-size:13px;font-family:var(--ff);cursor:pointer;border-radius:50px;white-space:nowrap;}
+.btn-new{border:1.5px solid #e0e0e0;background:#fff;color:#999;padding:15px 22px;font-size:14px;font-family:var(--ff);cursor:pointer;border-radius:50px;white-space:nowrap;}
 .btn-new:active{background:#f5f5f5;}
-.sug-box{border:1.5px solid #eee;border-radius:18px;background:#fff;position:absolute;z-index:20;width:100%;top:calc(100% + 6px);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);}
-.sug-item{padding:14px 20px;font-size:16px;cursor:pointer;color:#111;font-family:var(--ff);text-align:left;border-bottom:.5px solid #f2f2f2;}
+.sug-box{border:1.5px solid #eee;border-radius:18px;background:#fff;position:absolute;z-index:20;width:100%;top:calc(100% + 8px);overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.1);}
+.sug-item{padding:15px 22px;font-size:16px;cursor:pointer;color:#111;font-family:var(--ff);text-align:left;border-bottom:.5px solid #f2f2f2;}
 .sug-item:last-child{border-bottom:none;}
 .sug-item:active{background:#f5f5f5;}
-.err{font-size:12px;color:#e74c3c;min-height:18px;margin-bottom:10px;font-family:var(--ff);}
-.legend{display:flex;gap:18px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
-.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#888;font-family:var(--ff);}
-.dot{width:9px;height:9px;border-radius:50%;}
+.err{font-size:13px;color:#e74c3c;min-height:20px;margin-bottom:10px;}
+.legend{display:flex;gap:20px;justify-content:center;margin-bottom:24px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:7px;font-size:13px;color:#888;}
+.dot{width:10px;height:10px;border-radius:50%;}
 .dg{background:#27ae60;}.do{background:#e67e22;}.dr{background:#e74c3c;}
-.attempts{font-size:12px;color:#ccc;margin-bottom:14px;letter-spacing:.03em;font-family:var(--ff);}
-.guess-list{display:flex;flex-direction:column;gap:10px;}
+.attempts{font-size:13px;color:#ccc;margin-bottom:16px;letter-spacing:.03em;}
+.guess-list{display:flex;flex-direction:column;gap:12px;}
 .gcard{border:1.5px solid #ebebeb;border-radius:18px;overflow:hidden;text-align:left;}
-.gcard-header{background:#f7f7f7;padding:11px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ebebeb;}
-.gcard-name{font-size:16px;font-weight:600;color:#111;font-family:var(--ff);}
-.gcard-cn{font-size:11px;color:#bbb;font-weight:400;font-family:var(--ff);}
-.gcard-badge{font-size:11px;padding:3px 10px;border-radius:50px;font-family:var(--ff);font-weight:500;}
+.gcard-header{background:#f7f7f7;padding:13px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ebebeb;}
+.gcard-name{font-size:17px;font-weight:600;color:#111;}
+.gcard-cn{font-size:12px;color:#bbb;font-weight:400;}
+.gcard-badge{font-size:12px;padding:4px 12px;border-radius:50px;font-weight:600;}
 .badge-green{background:#27ae60;color:#fff;}
 .badge-wrong{background:#ebebeb;color:#bbb;}
 .gcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#ebebeb;}
-.gcell{padding:11px 13px;background:#fff;}
+.gcell{padding:13px 14px;background:#fff;}
 .gcell.green{background:#d5f5e3;}
 .gcell.orange{background:#fdebd0;}
 .gcell.red{background:#fadbd8;}
-.gcell-label{font-size:10px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px;font-family:var(--ff);font-weight:600;}
+.gcell-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;font-weight:700;}
 .gcell.green .gcell-label{color:#1a7a42;}
 .gcell.orange .gcell-label{color:#9a5a0a;}
 .gcell.red .gcell-label{color:#a93226;}
-.gcell-val{font-size:13px;line-height:1.35;font-family:var(--ff);}
+.gcell-val{font-size:14px;line-height:1.4;}
 .gcell.green .gcell-val{color:#1a7a42;}
 .gcell.orange .gcell-val{color:#9a5a0a;}
 .gcell.red .gcell-val{color:#a93226;}
 </style>
-
+</head>
+<body>
 <div id="app">
   <p class="eyebrow">Neuroanatomie</p>
   <h1 class="title">Cranial Nerves</h1>
   <p class="sub">Devinez le nerf cible</p>
   <div id="win" class="win"></div>
   <div class="input-wrap" id="iwrap">
-    <input type="text" id="ginput" placeholder="ex : facial" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" inputmode="text"/>
+    <input type="text" id="ginput" placeholder="ex : facial" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
     <div class="sug-box" id="sug" style="display:none;"></div>
   </div>
   <div class="row-btns">
@@ -71,7 +78,6 @@ input::placeholder{color:#ccc;font-size:15px;}
   <div id="att" class="attempts"></div>
   <div id="list" class="guess-list"></div>
 </div>
-
 <script>
 const DATA=[
   {number:"I",name:"OLFACTORY",type:["Sensory"],fibers:["SVA"],brain_part:"TELENCEPHALON",foramen_canal:["Cribriform plate"]},
@@ -87,116 +93,35 @@ const DATA=[
   {number:"XI",name:"ACCESSORY",type:["Motor"],fibers:["GSE","SVE","ASG"],brain_part:"MEDULLA OBLONGATA",foramen_canal:["Jugular foramen"]},
   {number:"XII",name:"HYPOGLOSSAL",type:["Motor"],fibers:["GSE","AVG"],brain_part:"MEDULLA OBLONGATA",foramen_canal:["Hypoglossal canal"]}
 ];
-
 let target=null,guesses=[],won=false;
 const cap=s=>s.charAt(0).toUpperCase()+s.slice(1).toLowerCase();
 const norm=s=>s.trim().toUpperCase();
 const findNerve=v=>{const n=norm(v);return DATA.find(d=>norm(d.name)===n)||DATA.find(d=>norm(d.name).startsWith(n))||DATA.find(d=>n===d.number);};
-
-function cmpSet(g,t){
-  const gs=new Set(g.map(x=>x.toUpperCase())),ts=new Set(t.map(x=>x.toUpperCase()));
-  const i=[...gs].filter(x=>ts.has(x));
-  if(i.length===ts.size&&gs.size===ts.size)return'green';
-  if(i.length>0)return'orange';
-  return'red';
-}
-function cmpFor(g,t){
-  const gn=g.map(x=>x.toUpperCase()),tn=t.map(x=>x.toUpperCase());
-  if(JSON.stringify([...gn].sort())===JSON.stringify([...tn].sort()))return'green';
-  const gw=new Set(gn.join(' ').split(/\s+/)),tw=new Set(tn.join(' ').split(/\s+/));
-  return[...gw].filter(w=>w.length>3&&tw.has(w)).length>0?'orange':'red';
-}
-function cmp(g,t){
-  return{
-    name:norm(g.name)===norm(t.name)?'green':'red',
-    type:cmpSet(g.type,t.type),
-    fibers:cmpSet(g.fibers,t.fibers),
-    brain:norm(g.brain_part)===norm(t.brain_part)?'green':'red',
-    foramen:cmpFor(g.foramen_canal,t.foramen_canal)
-  };
-}
-
+function cmpSet(g,t){const gs=new Set(g.map(x=>x.toUpperCase())),ts=new Set(t.map(x=>x.toUpperCase()));const i=[...gs].filter(x=>ts.has(x));if(i.length===ts.size&&gs.size===ts.size)return'green';if(i.length>0)return'orange';return'red';}
+function cmpFor(g,t){const gn=g.map(x=>x.toUpperCase()),tn=t.map(x=>x.toUpperCase());if(JSON.stringify([...gn].sort())===JSON.stringify([...tn].sort()))return'green';const gw=new Set(gn.join(' ').split(/\s+/)),tw=new Set(tn.join(' ').split(/\s+/));return[...gw].filter(w=>w.length>3&&tw.has(w)).length>0?'orange':'red';}
+function cmp(g,t){return{name:norm(g.name)===norm(t.name)?'green':'red',type:cmpSet(g.type,t.type),fibers:cmpSet(g.fibers,t.fibers),brain:norm(g.brain_part)===norm(t.brain_part)?'green':'red',foramen:cmpFor(g.foramen_canal,t.foramen_canal)};}
 function renderList(){
   const el=document.getElementById('list');
   if(!guesses.length){el.innerHTML='';return;}
   el.innerHTML=guesses.map((g,i)=>{
     const r=cmp(g,target);
     const isWin=Object.values(r).every(v=>v==='green');
-    return`<div class="gcard">
-      <div class="gcard-header">
-        <div><span class="gcard-name">${cap(g.name)}</span> <span class="gcard-cn">CN ${g.number}</span></div>
-        <span class="gcard-badge ${isWin?'badge-green':'badge-wrong'}">${isWin?'Correct':'#'+(guesses.length-i)}</span>
-      </div>
-      <div class="gcard-grid">
-        <div class="gcell ${r.type}"><div class="gcell-label">Type</div><div class="gcell-val">${g.type.join(', ')}</div></div>
-        <div class="gcell ${r.fibers}"><div class="gcell-label">Fibres</div><div class="gcell-val">${g.fibers.join(', ')}</div></div>
-        <div class="gcell ${r.brain}"><div class="gcell-label">Région</div><div class="gcell-val">${cap(g.brain_part)}</div></div>
-        <div class="gcell ${r.foramen}"><div class="gcell-label">Foramen</div><div class="gcell-val">${g.foramen_canal.join(' · ')}</div></div>
-      </div>
-    </div>`;
+    return`<div class="gcard"><div class="gcard-header"><div><span class="gcard-name">${cap(g.name)}</span> <span class="gcard-cn">CN ${g.number}</span></div><span class="gcard-badge ${isWin?'badge-green':'badge-wrong'}">${isWin?'Correct':'#'+(guesses.length-i)}</span></div><div class="gcard-grid"><div class="gcell ${r.type}"><div class="gcell-label">Type</div><div class="gcell-val">${g.type.join(', ')}</div></div><div class="gcell ${r.fibers}"><div class="gcell-label">Fibres</div><div class="gcell-val">${g.fibers.join(', ')}</div></div><div class="gcell ${r.brain}"><div class="gcell-label">Région</div><div class="gcell-val">${cap(g.brain_part)}</div></div><div class="gcell ${r.foramen}"><div class="gcell-label">Foramen</div><div class="gcell-val">${g.foramen_canal.join(' · ')}</div></div></div></div>`;
   }).join('');
   document.getElementById('att').textContent=`${guesses.length} tentative${guesses.length>1?'s':''}`;
 }
-
-function showWin(){
-  const b=document.getElementById('win');
-  b.style.display='block';
-  b.innerHTML=`Bravo ! CN ${target.number} — ${cap(target.name)} en ${guesses.length} tentative${guesses.length>1?'s':''}.`;
-  document.getElementById('ginput').disabled=true;
-  document.getElementById('sbtn').disabled=true;
-}
-
-function submitNerve(name){
-  if(won)return;
-  const nerve=findNerve(name);
-  if(!nerve){document.getElementById('err').textContent='Nerf non reconnu.';return;}
-  if(guesses.find(g=>g.name===nerve.name)){document.getElementById('err').textContent='Déjà proposé.';return;}
-  document.getElementById('err').textContent='';
-  guesses.unshift(nerve);
-  renderList();
-  document.getElementById('ginput').value='';
-  document.getElementById('sug').style.display='none';
-  if(nerve.name===target.name){won=true;showWin();}
-}
-
+function showWin(){const b=document.getElementById('win');b.style.display='block';b.innerHTML=`Bravo ! CN ${target.number} — ${cap(target.name)} en ${guesses.length} tentative${guesses.length>1?'s':''}.`;document.getElementById('ginput').disabled=true;document.getElementById('sbtn').disabled=true;}
+function submitNerve(name){if(won)return;const nerve=findNerve(name);if(!nerve){document.getElementById('err').textContent='Nerf non reconnu.';return;}if(guesses.find(g=>g.name===nerve.name)){document.getElementById('err').textContent='Déjà proposé.';return;}document.getElementById('err').textContent='';guesses.unshift(nerve);renderList();document.getElementById('ginput').value='';document.getElementById('sug').style.display='none';if(nerve.name===target.name){won=true;showWin();}}
 function submit(){submitNerve(document.getElementById('ginput').value.trim());}
-
-function newGame(){
-  target=DATA[Math.floor(Math.random()*DATA.length)];
-  guesses=[];won=false;
-  document.getElementById('win').style.display='none';
-  document.getElementById('ginput').value='';
-  document.getElementById('ginput').disabled=false;
-  document.getElementById('sbtn').disabled=false;
-  document.getElementById('err').textContent='';
-  document.getElementById('att').textContent='';
-  document.getElementById('list').innerHTML='';
-  document.getElementById('sug').style.display='none';
-}
-
-function updateSug(){
-  const v=norm(document.getElementById('ginput').value.trim());
-  const sug=document.getElementById('sug');
-  if(!v){sug.style.display='none';return;}
-  const m=DATA.filter(d=>d.name.startsWith(v)||d.name.includes(v));
-  if(!m.length){sug.style.display='none';return;}
-  sug.innerHTML=m.map(x=>`<div class="sug-item" data-n="${x.name}">${cap(x.name)}</div>`).join('');
-  sug.style.display='block';
-  sug.querySelectorAll('.sug-item').forEach(el=>{
-    const go=e=>{e.preventDefault();const n=el.dataset.n;document.getElementById('ginput').value='';document.getElementById('sug').style.display='none';submitNerve(n);};
-    el.addEventListener('mousedown',go);
-    el.addEventListener('touchstart',go,{passive:false});
-  });
-}
-
+function newGame(){target=DATA[Math.floor(Math.random()*DATA.length)];guesses=[];won=false;document.getElementById('win').style.display='none';document.getElementById('ginput').value='';document.getElementById('ginput').disabled=false;document.getElementById('sbtn').disabled=false;document.getElementById('err').textContent='';document.getElementById('att').textContent='';document.getElementById('list').innerHTML='';document.getElementById('sug').style.display='none';}
+function updateSug(){const v=norm(document.getElementById('ginput').value.trim());const sug=document.getElementById('sug');if(!v){sug.style.display='none';return;}const m=DATA.filter(d=>d.name.startsWith(v)||d.name.includes(v));if(!m.length){sug.style.display='none';return;}sug.innerHTML=m.map(x=>`<div class="sug-item" data-n="${x.name}">${cap(x.name)}</div>`).join('');sug.style.display='block';sug.querySelectorAll('.sug-item').forEach(el=>{const go=e=>{e.preventDefault();const n=el.dataset.n;document.getElementById('ginput').value='';document.getElementById('sug').style.display='none';submitNerve(n);};el.addEventListener('mousedown',go);el.addEventListener('touchstart',go,{passive:false});});}
 const inp=document.getElementById('ginput');
 inp.addEventListener('input',updateSug);
-inp.addEventListener('keydown',e=>{
-  if(e.key==='Enter'){document.getElementById('sug').style.display='none';submit();}
-  if(e.key==='Escape')document.getElementById('sug').style.display='none';
-});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'){document.getElementById('sug').style.display='none';submit();}if(e.key==='Escape')document.getElementById('sug').style.display='none';});
 document.addEventListener('click',e=>{if(!e.target.closest('#iwrap'))document.getElementById('sug').style.display='none';});
 document.getElementById('sbtn').addEventListener('click',submit);
 document.getElementById('nbtn').addEventListener('click',newGame);
 newGame();
 </script>
+</body>
+</html>
