@@ -1,51 +1,52 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0;}
-#app{width:100%;max-width:400px;margin:0 auto;padding:1.5rem 1rem 2rem;font-family:Georgia,serif;text-align:center;}
-.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
-.title{font-size:26px;font-weight:400;color:var(--color-text-primary);margin-bottom:4px;}
-.sub{font-size:12px;color:#bbb;margin-bottom:24px;}
-.win{background:#d5f5e3;border:1.5px solid #27ae60;border-radius:16px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1a7a42;display:none;}
-.input-wrap{position:relative;margin-bottom:8px;}
-input[type=text]{width:100%;border:1.5px solid #ddd;border-radius:50px;padding:13px 20px;font-size:16px;font-family:Georgia,serif;outline:none;background:#fff;color:var(--color-text-primary);text-align:center;-webkit-appearance:none;}
-input[type=text]:focus{border-color:#888;}
-input::placeholder{color:#ccc;}
-.row-btns{display:flex;gap:8px;margin-bottom:6px;}
-.btn-submit{flex:1;border:none;background:#1a1a1a;color:#fff;padding:13px;font-size:15px;font-family:Georgia,serif;cursor:pointer;border-radius:50px;letter-spacing:.03em;}
+:root{--ff:-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;}
+#app{width:100%;padding:28px 16px 40px;font-family:var(--ff);text-align:center;}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#bbb;margin-bottom:6px;}
+.title{font-size:28px;font-weight:600;color:#111;margin-bottom:4px;letter-spacing:-.3px;}
+.sub{font-size:13px;color:#bbb;margin-bottom:28px;}
+.win{background:#d5f5e3;border:1.5px solid #27ae60;border-radius:16px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#1a7a42;display:none;font-family:var(--ff);}
+.input-wrap{position:relative;margin-bottom:10px;}
+input[type=text]{width:100%;border:1.5px solid #e0e0e0;border-radius:50px;padding:14px 20px;font-size:16px;font-family:var(--ff);outline:none;background:#fff;color:#111;text-align:center;-webkit-appearance:none;appearance:none;transform:translateZ(0);}
+input[type=text]:focus{border-color:#999;}
+input::placeholder{color:#ccc;font-size:15px;}
+.row-btns{display:flex;gap:10px;margin-bottom:8px;}
+.btn-submit{flex:1;border:none;background:#111;color:#fff;padding:14px;font-size:15px;font-family:var(--ff);font-weight:500;cursor:pointer;border-radius:50px;letter-spacing:.01em;}
 .btn-submit:active{background:#333;}
-.btn-new{border:1.5px solid #ddd;background:#fff;color:#999;padding:13px 18px;font-size:13px;font-family:Georgia,serif;cursor:pointer;border-radius:50px;}
+.btn-new{border:1.5px solid #e0e0e0;background:#fff;color:#999;padding:14px 20px;font-size:13px;font-family:var(--ff);cursor:pointer;border-radius:50px;white-space:nowrap;}
 .btn-new:active{background:#f5f5f5;}
-.sug-box{border:1.5px solid #eee;border-radius:16px;background:#fff;position:absolute;z-index:10;width:100%;top:calc(100% + 6px);overflow:hidden;}
-.sug-item{padding:13px 20px;font-size:15px;cursor:pointer;color:var(--color-text-primary);font-family:Georgia,serif;text-align:left;border-bottom:0.5px solid #f5f5f5;}
+.sug-box{border:1.5px solid #eee;border-radius:18px;background:#fff;position:absolute;z-index:20;width:100%;top:calc(100% + 6px);overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,.08);}
+.sug-item{padding:14px 20px;font-size:16px;cursor:pointer;color:#111;font-family:var(--ff);text-align:left;border-bottom:.5px solid #f2f2f2;}
 .sug-item:last-child{border-bottom:none;}
 .sug-item:active{background:#f5f5f5;}
-.err{font-size:12px;color:#e74c3c;min-height:18px;margin-bottom:10px;}
-.legend{display:flex;gap:16px;justify-content:center;margin-bottom:20px;flex-wrap:wrap;}
-.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#888;}
-.dot{width:10px;height:10px;border-radius:50%;}
+.err{font-size:12px;color:#e74c3c;min-height:18px;margin-bottom:10px;font-family:var(--ff);}
+.legend{display:flex;gap:18px;justify-content:center;margin-bottom:22px;flex-wrap:wrap;}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#888;font-family:var(--ff);}
+.dot{width:9px;height:9px;border-radius:50%;}
 .dg{background:#27ae60;}.do{background:#e67e22;}.dr{background:#e74c3c;}
-.attempts{font-size:12px;color:#ccc;margin-bottom:12px;letter-spacing:.03em;}
+.attempts{font-size:12px;color:#ccc;margin-bottom:14px;letter-spacing:.03em;font-family:var(--ff);}
 .guess-list{display:flex;flex-direction:column;gap:10px;}
-.gcard{border:1.5px solid #eee;border-radius:16px;overflow:hidden;text-align:left;}
-.gcard-header{background:#f9f9f9;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee;}
-.gcard-name{font-size:15px;font-weight:500;color:var(--color-text-primary);}
-.gcard-num{font-size:11px;color:#bbb;letter-spacing:.05em;}
-.gcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#eee;}
-.gcell{padding:10px 12px;background:#fff;}
+.gcard{border:1.5px solid #ebebeb;border-radius:18px;overflow:hidden;text-align:left;}
+.gcard-header{background:#f7f7f7;padding:11px 15px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #ebebeb;}
+.gcard-name{font-size:16px;font-weight:600;color:#111;font-family:var(--ff);}
+.gcard-cn{font-size:11px;color:#bbb;font-weight:400;font-family:var(--ff);}
+.gcard-badge{font-size:11px;padding:3px 10px;border-radius:50px;font-family:var(--ff);font-weight:500;}
+.badge-green{background:#27ae60;color:#fff;}
+.badge-wrong{background:#ebebeb;color:#bbb;}
+.gcard-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#ebebeb;}
+.gcell{padding:11px 13px;background:#fff;}
 .gcell.green{background:#d5f5e3;}
 .gcell.orange{background:#fdebd0;}
 .gcell.red{background:#fadbd8;}
-.gcell-label{font-size:10px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:3px;}
+.gcell-label{font-size:10px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px;font-family:var(--ff);font-weight:600;}
 .gcell.green .gcell-label{color:#1a7a42;}
 .gcell.orange .gcell-label{color:#9a5a0a;}
 .gcell.red .gcell-label{color:#a93226;}
-.gcell-val{font-size:12px;line-height:1.35;}
+.gcell-val{font-size:13px;line-height:1.35;font-family:var(--ff);}
 .gcell.green .gcell-val{color:#1a7a42;}
 .gcell.orange .gcell-val{color:#9a5a0a;}
 .gcell.red .gcell-val{color:#a93226;}
-.gcard-badge{font-size:10px;padding:3px 10px;border-radius:50px;font-family:Georgia,serif;}
-.badge-green{background:#27ae60;color:#fff;}
-.badge-wrong{background:#eee;color:#bbb;}
 </style>
 
 <div id="app">
@@ -120,10 +121,10 @@ function renderList(){
   if(!guesses.length){el.innerHTML='';return;}
   el.innerHTML=guesses.map((g,i)=>{
     const r=cmp(g,target);
-    const isWin=r.name==='green'&&r.type==='green'&&r.fibers==='green'&&r.brain==='green'&&r.foramen==='green';
+    const isWin=Object.values(r).every(v=>v==='green');
     return`<div class="gcard">
       <div class="gcard-header">
-        <div><span class="gcard-name">${cap(g.name)}</span><span class="gcard-num"> — CN ${g.number}</span></div>
+        <div><span class="gcard-name">${cap(g.name)}</span> <span class="gcard-cn">CN ${g.number}</span></div>
         <span class="gcard-badge ${isWin?'badge-green':'badge-wrong'}">${isWin?'Correct':'#'+(guesses.length-i)}</span>
       </div>
       <div class="gcard-grid">
@@ -145,9 +146,9 @@ function showWin(){
   document.getElementById('sbtn').disabled=true;
 }
 
-function submitNerve(nerveName){
+function submitNerve(name){
   if(won)return;
-  const nerve=findNerve(nerveName);
+  const nerve=findNerve(name);
   if(!nerve){document.getElementById('err').textContent='Nerf non reconnu.';return;}
   if(guesses.find(g=>g.name===nerve.name)){document.getElementById('err').textContent='Déjà proposé.';return;}
   document.getElementById('err').textContent='';
@@ -158,9 +159,7 @@ function submitNerve(nerveName){
   if(nerve.name===target.name){won=true;showWin();}
 }
 
-function submit(){
-  submitNerve(document.getElementById('ginput').value.trim());
-}
+function submit(){submitNerve(document.getElementById('ginput').value.trim());}
 
 function newGame(){
   target=DATA[Math.floor(Math.random()*DATA.length)];
@@ -173,10 +172,9 @@ function newGame(){
   document.getElementById('att').textContent='';
   document.getElementById('list').innerHTML='';
   document.getElementById('sug').style.display='none';
-  document.getElementById('ginput').focus();
 }
 
-function updateSuggestions(){
+function updateSug(){
   const v=norm(document.getElementById('ginput').value.trim());
   const sug=document.getElementById('sug');
   if(!v){sug.style.display='none';return;}
@@ -185,25 +183,14 @@ function updateSuggestions(){
   sug.innerHTML=m.map(x=>`<div class="sug-item" data-n="${x.name}">${cap(x.name)}</div>`).join('');
   sug.style.display='block';
   sug.querySelectorAll('.sug-item').forEach(el=>{
-    el.addEventListener('mousedown',e=>{
-      e.preventDefault();
-      const name=e.currentTarget.dataset.n;
-      sug.style.display='none';
-      document.getElementById('ginput').value='';
-      submitNerve(name);
-    });
-    el.addEventListener('touchstart',e=>{
-      e.preventDefault();
-      const name=e.currentTarget.dataset.n;
-      sug.style.display='none';
-      document.getElementById('ginput').value='';
-      submitNerve(name);
-    },{passive:false});
+    const go=e=>{e.preventDefault();const n=el.dataset.n;document.getElementById('ginput').value='';document.getElementById('sug').style.display='none';submitNerve(n);};
+    el.addEventListener('mousedown',go);
+    el.addEventListener('touchstart',go,{passive:false});
   });
 }
 
 const inp=document.getElementById('ginput');
-inp.addEventListener('input',updateSuggestions);
+inp.addEventListener('input',updateSug);
 inp.addEventListener('keydown',e=>{
   if(e.key==='Enter'){document.getElementById('sug').style.display='none';submit();}
   if(e.key==='Escape')document.getElementById('sug').style.display='none';
